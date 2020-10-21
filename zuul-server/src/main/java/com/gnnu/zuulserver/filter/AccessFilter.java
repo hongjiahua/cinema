@@ -39,12 +39,14 @@ public class AccessFilter extends ZuulFilter {
         HttpServletResponse response = requestContext.getResponse();
         String token = request.getParameter("token");
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if ("token".equals(cookie.getName())) {
-                token = cookie.getValue();
+        if(cookies!=null) {
+            for (Cookie cookie : cookies) {
+                if ("token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                }
             }
         }
-        if (url.contains("/sso/login") || url.contains("/loginPage") || (!StringUtils.isEmpty(token) && userFeign.hasKey(token))) {
+        if (url.contains("/sso/login") || url.contains("/loginPage") || url.contains("/registerPage")||url.contains("/user/register") ||url.contains("/sso/hasKey")|| (!StringUtils.isEmpty(token) && userFeign.hasKey(token))) {
             requestContext.setSendZuulResponse(true);
             requestContext.setResponseStatusCode(200);
 
@@ -52,6 +54,7 @@ public class AccessFilter extends ZuulFilter {
             requestContext.setSendZuulResponse(false);
             requestContext.setResponseStatusCode(401);
             try {
+                System.out.println("重定向");
                 response.sendRedirect("http://127.0.0.1:8080/loginPage?url=" + url);
             } catch (IOException e) {
                 e.printStackTrace();

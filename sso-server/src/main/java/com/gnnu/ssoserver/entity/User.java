@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "user")
 @Data
-public class User implements Serializable {
+public class User implements Serializable,Man {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
@@ -19,4 +19,9 @@ public class User implements Serializable {
     private String phoneNumber;
     @Column(name = "password")
     private String password;
+
+    @Override
+    public String identity() {
+        return "用户";
+    }
 }

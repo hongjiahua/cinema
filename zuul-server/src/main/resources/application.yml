@@ -25,9 +25,18 @@ zuul:
   routes:
     login:
       path: /sso/**
-      serviceId: sso-server
+      serviceId: sso-server   #登录验证模块
+      stripPrefix: false
+      sensitiveHeaders: Authorization
+    user:
+      path: /user/**
+      serviceId: sso-server   #用户业务模块
       stripPrefix: false
       sensitiveHeaders: Authorization
 ribbon:
   ReadTimeout: 120000  #请求处理的超时时间
   ConnectTimeout: 30000  #请求连接的超时时间
+  ## 这个要有，如果不加，只加了上面也没用
+  eureka:
+    enabled: true
+
