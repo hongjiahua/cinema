@@ -1,0 +1,33 @@
+server:
+  port: 8767
+spring:
+  application:
+    name: turbine
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://root:123456@127.0.0.1:8761/eureka/
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "localhost"
+turbine:
+  app-config: movie,order,schedule,seat,sso-server,zuul-server
+  combine-host-port: true
+  cluster-name-expression: metadata['cluster']
+  aggregator:
+    cluster-config: sca
+  instanceUrlSuffix:
+    sca: /hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # 访问/actuator/hystrix.stream能看到不断更新的监控流

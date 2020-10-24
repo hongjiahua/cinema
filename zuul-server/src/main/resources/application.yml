@@ -7,6 +7,8 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
+    metadata-map:
+      cluster: sca
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -31,6 +33,26 @@ zuul:
     user:
       path: /user/**
       serviceId: sso-server   #用户业务模块
+      stripPrefix: false
+      sensitiveHeaders: Authorization
+    movie:
+      path: /movie/**
+      serviceId: movie   #电影业务模块
+      stripPrefix: false
+      sensitiveHeaders: Authorization
+    seat:
+      path: /seat/**
+      serviceId: seat   #座位业务模块
+      stripPrefix: false
+      sensitiveHeaders: Authorization
+    schedule:
+      path: /schedule/**
+      serviceId: schedule   #场次安排业务模块
+      stripPrefix: false
+      sensitiveHeaders: Authorization
+    order:
+      path: /order/**
+      serviceId: order   #订单业务模块
       stripPrefix: false
       sensitiveHeaders: Authorization
 ribbon:

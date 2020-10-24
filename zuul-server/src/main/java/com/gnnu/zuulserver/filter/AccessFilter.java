@@ -6,17 +6,23 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class AccessFilter extends ZuulFilter {
     @Autowired
     private UserFeign userFeign;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
+
     public String filterType() {
         return "pre";
     }
@@ -35,20 +41,23 @@ public class AccessFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
-        String url = request.getRequestURL().toString();
+        StringBuilder url = new StringBuilder(request.getRequestURL().toString());
         HttpServletResponse response = requestContext.getResponse();
         String token = request.getParameter("token");
         Cookie[] cookies = request.getCookies();
-        if(cookies!=null) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
                     token = cookie.getValue();
+                    System.out.println(token);
                 }
             }
         }
-        if (url.contains("/sso/login") || url.contains("/loginPage") || url.contains("/registerPage")||url.contains("/user/register") ||url.contains("/sso/hasKey")|| (!StringUtils.isEmpty(token) && userFeign.hasKey(token))) {
+        System.out.println(token);
+        if (url.toString().contains("/sso/login") || url.toString().contains("/loginPage") || url.toString().contains("/registerPage") || url.toString().contains("/user/register") || url.toString().contains("/sso/hasKey") || (!StringUtils.isEmpty(token) && userFeign.hasKey(token))) {
             requestContext.setSendZuulResponse(true);
             requestContext.setResponseStatusCode(200);
+
 
         } else {
             requestContext.setSendZuulResponse(false);

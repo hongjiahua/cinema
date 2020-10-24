@@ -19,6 +19,11 @@
     </properties>
     <modules>
         <module>eureka-server</module>
+        <module>sso-server</module>
+        <module>movie</module>
+        <module>order</module>
+        <module>schedule</module>
+        <module>hall</module>
     </modules>
     <packaging>pom</packaging>
     <dependencies>

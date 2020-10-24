@@ -49,7 +49,7 @@ public class LoginController {
             Gson gson = new Gson();
             datamap = gson.toJson(map);
             redisTemplate.opsForValue().set(token, map, maxeExistTime, TimeUnit.SECONDS);
-            /*response.addCookie(cookie);
+           /* response.addCookie(cookie);
             response.sendRedirect(url);*/
 
 
@@ -79,6 +79,7 @@ public class LoginController {
     @ResponseBody
     public Boolean hasKey(@RequestParam("token") String token) {
         try {
+            System.out.println("hahahahahaha");
             return redisTemplate.hasKey(token);
 
         } catch (Exception ex) {
