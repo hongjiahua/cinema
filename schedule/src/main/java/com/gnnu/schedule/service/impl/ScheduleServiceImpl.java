@@ -17,6 +17,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleDao scheduleDao;
 
     @Override
+    public List<Schedule> listScheduleAll() {
+        return scheduleDao.listScheduleAll();
+    }
+
+    @Override
     @CachePut(value = "listScheduleOrderByTime", key = "#movieId")
     public List<Schedule> listScheduleOrderByTime(Integer movieId) {
         return scheduleDao.listScheduleOrderByTime(movieId);
@@ -24,15 +29,27 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    @Modifying
+
     public void deleteScheduleById(Integer scheduleId) {
         scheduleDao.deleteScheduleById(scheduleId);
     }
 
     @Override
     @Transactional
-    @Modifying
+
     public void addSchedule(Schedule schedule) {
         scheduleDao.save(schedule);
     }
+
+    @Override
+    public void updateSchedule(Schedule schedule) {
+        scheduleDao.save(schedule);
+    }
+
+    @Override
+    public List<Schedule> listScheduleOrderByHallId(Integer hallId) {
+        return scheduleDao.listScheduleOrderByHallId(hallId);
+    }
+
+
 }

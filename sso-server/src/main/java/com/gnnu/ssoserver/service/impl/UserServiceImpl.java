@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -40,9 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> listAllUser(int page, int size, Sort sort) {
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return userDao.findAll(pageable);
+    public List<User> listAllUser() {
+        return userDao.findAll();
     }
 
     @Override

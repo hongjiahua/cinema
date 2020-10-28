@@ -25,11 +25,6 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-    encoding: UTF-8
 eureka:
   instance:
     hostname: localhost
@@ -47,3 +42,10 @@ feign:
 hystrix:
   dashboard:
     proxy-stream-allow-list: "localhost"
+ribbon:
+  ReadTimeout: 120000  #请求处理的超时时间
+  ConnectTimeout: 30000  #请求连接的超时时间
+  ## 这个要有，如果不加，只加了上面也没用
+  eureka:
+    enabled: true
+

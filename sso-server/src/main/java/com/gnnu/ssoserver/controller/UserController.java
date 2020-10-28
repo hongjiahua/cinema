@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @CrossOrigin("*")
 @RequestMapping("/user")
@@ -90,16 +92,9 @@ public class UserController {
 
     @RequestMapping("/listAllUser")
     @ResponseBody
-    public Page<User> listAllUser(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam("sort") String sortType) {
-        Sort sort = null;
+    public List<User> listAllUser() {
         try {
-            switch (sortType) {
-                case "asc":
-                    sort = Sort.by(Sort.Direction.ASC, "id");
-                case "desc":
-                    sort = Sort.by(Sort.Direction.DESC, "id");
-            }
-            return userService.listAllUser(pageNum, pageSize, sort);
+            return userService.listAllUser();
 
         } catch (Exception ex) {
             ex.printStackTrace();

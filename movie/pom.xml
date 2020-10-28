@@ -85,6 +85,7 @@
             <artifactId>spring-cloud-netflix-hystrix-dashboard</artifactId>
             <version>2.2.5.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
